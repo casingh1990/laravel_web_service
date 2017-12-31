@@ -17,4 +17,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::post('login', 'Auth\LoginController@login');
+Route::post('register', 'Auth\RegisterController@register');
+
 Route::post('items', 'ItemController@store');
+Route::get('items', 'ItemController@get');
+
+Route::get('hero/{id}', 'HeroController@index');
+Route::post('hero', 'HeroController@save');
+Route::resource('hero', 'HeroController');
+Route::get('csrf_token', 'HeroController@getCSRFToken');

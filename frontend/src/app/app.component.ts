@@ -1,8 +1,9 @@
 import { Component, Injectable } from '@angular/core';
-import { Item } from './Item';
 import { NgForm } from '@angular/forms';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+
+import { DataManager } from './services/DataManager.service';
 
 @Injectable()
 @Component({
@@ -14,8 +15,8 @@ export class AppComponent {
   constructor(private _http: Http){}
     private headers = new Headers({'Content-type': 'application/json'});
     title = 'Angular Laravel Demo';
-    onSubmit(form: Ngform): Promise <Item>{
-      return this._http.post('http://10.0.0.60/api/items', JSON.stringify(form.value), {headers: this.headers})
+    onSubmit(form: Ngform): Promise <any>{
+      return this._http.post('http://10.0.0.60/bakend/api/items', JSON.stringify(form.value), {headers: this.headers})
       .toPromise()
       .then(res => res.json().data)
       .catch(this.handleError);

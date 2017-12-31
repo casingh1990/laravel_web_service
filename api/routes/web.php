@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('items', 'ItemController@store');
+Route::put('api/hero', 'HeroController@update');
+Route::post('hero', 'HeroController@store');

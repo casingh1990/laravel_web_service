@@ -16,4 +16,22 @@ export class Config
       return 'http://10.0.0.60/api';
     }
   }
+
+  getAPIClientSecret()
+  {
+      if (this.isProduction)
+      {
+          return "TiHkCPB4dochEj8P5doU5Xi09owOpnGjINqLBrAI";
+      }
+      else
+      {
+          return this.devAPIClientSecret;
+      }
+  }
+
+  getAPIGrantType()
+  {
+      return this.apiGrantType;
+  }
+
 }

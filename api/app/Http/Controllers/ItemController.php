@@ -20,4 +20,13 @@ class ItemController extends Controller
      $item->save();
      return response()->json('Successfully added');
    }
+
+   public function get(Request $request){
+     $items = Item::all();
+     /*$item_array
+     foreach ($items as $item) {
+        echo $flight->name;
+     }*/
+     return response()->json($items);
+   }
 }

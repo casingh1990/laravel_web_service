@@ -1,0 +1,25 @@
+<div *ngIf="hero" class="">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h2>{{ hero.name | uppercase }} Details</h2>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 label label-default">
+            <div class="title_head">id:</div>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{hero.id}}</div>
+        </div><!-- end row -->
+        <div class="row">
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 label label-default align-middle">
+            <div class="title_head">name:</div>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <input [(ngModel)]="hero.name" placeholder="name" />
+          </div>
+        </div><!-- end row -->
+      </div><!-- end container -->
+    </div>
+  </div>
+</div>
+<button (click)="save()">save</button>
+<button (click)="goBack()">go back</button>
