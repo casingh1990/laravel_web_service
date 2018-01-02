@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ConfigService {
 
-  api_url: string = "http://192.168.1.106/backend/api/";
+  api_url: string = "http://10.0.0.60/backend/api/";
 
   constructor() { }
 

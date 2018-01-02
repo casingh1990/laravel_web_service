@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Hero } from '../models/hero';
+import { User } from '../models/user';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { HEROES } from './mock-heroes';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from '../services/message.service';
 import { ConfigService } from '../services/config.service';
@@ -13,55 +12,55 @@ const httpOptions = {
 };
 
 @Injectable()
-export class HeroService {
+export class UserService {
 
-  private heroesUrl: string;
+  private usersUrl: string;
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
     private configService: ConfigService) {
-        this.heroesUrl = this.configService.getAPIUrl() + "hero";
+        this.usersUrl = this.configService.getAPIUrl() + "users";
     }
 
-  getHero(id: number): Observable<Hero> {
-    const url = `${this.heroesUrl}/${id}`;
-    return this.http.get<Hero>(url).pipe(
+  getUser(id: number): Observable<User> {
+    const url = `${this.usersUrl}/${id}`;
+    return this.http.get<User>(url).pipe(
       tap(_ => this.log(`fetched hero id=${id}`)),
-      catchError(this.handleError<Hero>(`getHero id=${id}`))
+      catchError(this.handleError<User>(`getUser id=${id}`))
     );
   }
 
-  /** Log a HeroService message with the MessageService */
+  /** Log a UserService message with the MessageService */
   private log(message: string) {
-    this.messageService.add('HeroService: ' + message);
+    this.messageService.add('UserService: ' + message);
   }
 
   /** POST: add a new hero to the server */
-  addHero (hero: Hero): Observable<Hero> {
-    const url = `${this.heroesUrl}`;//http://192.168.1.106/backend/hero';
+  addUser (hero: User): Observable<User> {
+    const url = `${this.usersUrl}`;//http://192.168.1.106/backend/hero';
     //httpOptions['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-    return this.http.post<Hero>(url, hero, httpOptions).pipe(
-      tap((hero: Hero) => this.log(`added hero w/ id=${hero.id}`)),
-      catchError(this.handleError<Hero>('addHero'))
+    return this.http.post<User>(url, hero, httpOptions).pipe(
+      tap((hero: User) => this.log(`added hero w/ id=${hero.id}`)),
+      catchError(this.handleError<User>('addUser'))
     );
   }
 
   /** PUT: update the hero on the server */
-  updateHero (hero: Hero): Observable<any> {
-    const url = `${this.heroesUrl}/${hero.id}`;
+  updateUser (hero: User): Observable<any> {
+    const url = `${this.usersUrl}/${hero.id}`;
     return this.http.put(url, hero, httpOptions).pipe(
       tap(_ => this.log(`updated hero id=${hero.id}`)),
-      catchError(this.handleError<any>('updateHero'))
+      catchError(this.handleError<any>('updateUser'))
     );
   }
 
-  getHeroes(): Observable<Hero[]> {
-    this.messageService.add('HeroService: fetched heroes');
-    return this.http.get<Hero[]>(this.heroesUrl)
+  getUsers(): Observable<User[]> {
+    this.messageService.add('UserService: fetched users');
+    return this.http.get<User[]>(this.usersUrl)
       .pipe(
-         tap(heroes => this.log(`fetched heroes`)),
-         catchError(this.handleError('getHeroes', []))
+         tap(users => this.log(`fetched users`)),
+         catchError(this.handleError('getUseres', []))
        );
   }
 

@@ -1,0 +1,19 @@
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">My Videos</div>
+    <ul class="videos">
+      <li *ngFor="let video of videos">
+        <a routerLink="/video-detail/{{video.id}}">
+          <span class="badge">{{video.id}}</span> {{video.name}}
+        </a>
+      </li>
+    </ul>
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="video">New Video</label>
+    <input type="file" id="video" (change)="onFileChange($event)" #fileInput>
+    <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+  </div>
+  <button type="submit" [disabled]="form.invalid || loading" class="btn btn-success">Submit <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+</form>

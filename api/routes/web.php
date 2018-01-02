@@ -17,3 +17,11 @@ Route::get('/', function () {
 
 Route::put('api/hero', 'HeroController@update');
 Route::post('hero', 'HeroController@store');
+
+//Route::post('/register', 'RegisterController@register');
+//Route::post('/login', ['as'=>'login', 'uses'=>'LoginController@postLogin']);
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('getvideos/{id}', 'VideoController@getVideo');
+Route::resource('videos', 'VideoController');

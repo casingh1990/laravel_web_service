@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/videos';
 
     /**
      * Create a new controller instance.
@@ -37,17 +39,22 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+    public function apilogin(Request $request)
     {
-        $this->validateLogin($request);
+      $all = $request->all();
 
-        if ($this->attemptLogin($request)) {
+        //$this->validateLogin($request);
+//echo "reached here";exit();
+        //if ($this->attemptLogin($request)) {
+        if (Auth::attempt($all)){
             $user = $this->guard()->user();
             $user->generateToken();
 
             return response()->json([
                 'data' => $user->toArray(),
             ]);
+        }else{
+          echo "login Failed<br />";
         }
 
         return $this->sendFailedLoginResponse($request);
