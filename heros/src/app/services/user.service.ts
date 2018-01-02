@@ -23,12 +23,9 @@ export class UserService {
         this.usersUrl = this.configService.getAPIUrl() + "users";
     }
 
-  getUser(id: number): Observable<User> {
-    const url = `${this.usersUrl}/${id}`;
-    return this.http.get<User>(url).pipe(
-      tap(_ => this.log(`fetched hero id=${id}`)),
-      catchError(this.handleError<User>(`getUser id=${id}`))
-    );
+  getUser(){
+    let data = JSON.parse(localStorage.getItem('currentUser'));
+    return data.data;
   }
 
   /** Log a UserService message with the MessageService */
@@ -36,21 +33,51 @@ export class UserService {
     this.messageService.add('UserService: ' + message);
   }
 
-  /** POST: add a new hero to the server */
-  addUser (hero: User): Observable<User> {
-    const url = `${this.usersUrl}`;//http://192.168.1.106/backend/hero';
-    //httpOptions['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-    return this.http.post<User>(url, hero, httpOptions).pipe(
-      tap((hero: User) => this.log(`added hero w/ id=${hero.id}`)),
+  private handleLogin(user: User){
+    // store user details and jwt token in local storage to keep user logged in between page refreshes
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.log(`logged in user w/ id=${user.id}`)
+  }
+
+  /** login user to server */
+  login (user: string, password: string): Observable<User> {
+    const url = this.configService.getAPIUrl() + "apilogin";
+    let data = {email: user, password: password};
+    return this.http.post<User>(url, data, httpOptions).pipe(
+      tap(
+        (user: User) => this.handleLogin(user)
+      ),
       catchError(this.handleError<User>('addUser'))
     );
   }
+  /*login(username: string, password: string) {
+      const url = this.configService.getAPIUrl() + "apilogin";
+      return this.http.post(url, { email: username, password: password })
+          .map((response: Response) => {
+              // login successful if there's a jwt token in the response
+              let user = response.json();
+              if (user && user.api_token) {
+                  // store user details and jwt token in local storage to keep user logged in between page refreshes
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+              }
 
-  /** PUT: update the hero on the server */
-  updateUser (hero: User): Observable<any> {
-    const url = `${this.usersUrl}/${hero.id}`;
-    return this.http.put(url, hero, httpOptions).pipe(
-      tap(_ => this.log(`updated hero id=${hero.id}`)),
+              return user;
+          });
+  }*/
+
+  /**
+   * Log out user
+   **/
+  logout() {
+      // remove user from local storage to log user out
+      localStorage.removeItem('currentUser');
+  }
+
+  /** PUT: update the user on the server */
+  updateUser (user: User): Observable<any> {
+    const url = `${this.usersUrl}/${user.id}`;
+    return this.http.put(url, user, httpOptions).pipe(
+      tap(_ => this.log(`updated user id=${user.id}`)),
       catchError(this.handleError<any>('updateUser'))
     );
   }

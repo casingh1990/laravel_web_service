@@ -8,11 +8,13 @@ import { HeroService } from './services/hero.service';
 import { VideoService } from './services/video.service';
 import { MessageService } from './services/message.service';
 import { ConfigService } from './services/config.service';
+import { UserService } from './services/user.service';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HeroDetailComponent,
     MessagesComponent,
     DashboardComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ HeroService, MessageService, VideoService, ConfigService, HttpClientModule ],
+  providers: [ HeroService, MessageService, VideoService, ConfigService, UserService, HttpClientModule ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

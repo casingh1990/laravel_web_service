@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from '../services/message.service';
+import { UserService } from '../services/user.service';
 import { ConfigService } from '../services/config.service';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -19,6 +20,7 @@ export class VideoService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
+    private userService: UserService,
     private configService: ConfigService) {
         this.videosUrl = this.configService.getAPIUrl() + "videos";
     }
@@ -56,8 +58,18 @@ export class VideoService {
   }
 
   getVideos(): Observable<Video[]> {
+    let user = this.userService.getUser();
+
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+    'Authorization' : 'Bearer ' + user.api_token })
+    };
+
     this.messageService.add('VideoService: fetched videos');
-    return this.http.get<Video[]>(this.videosUrl)
+
+    let url = this.videosUrl + "?api_token=" + user.api_token;
+
+    return this.http.get<Video[]>(url, httpOptions)
       .pipe(
          tap(videos => this.log(`fetched videos`)),
          catchError(this.handleError('getVideoes', []))

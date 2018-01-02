@@ -2,6 +2,7 @@ import { ElementRef,  ViewChild, Component, OnInit } from '@angular/core';
 import { ConfigService } from '../services/config.service';
 import { HeroService } from '../services/hero.service';
 import { VideoService } from '../services/video.service';
+import { UserService } from '../services/user.service';
 import { Video } from '../models/video';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -23,6 +24,7 @@ export class FileUploadComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private heroService: HeroService,
+    private userService: UserService,
     private videoService: VideoService,
     private http: HttpClient,private fb: FormBuilder
   ) {

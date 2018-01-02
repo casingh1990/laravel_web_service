@@ -16,7 +16,10 @@ class VideoController extends Controller
      */
     public function index()
     {
-      $user_id = Auth::id();
+      $user = Auth::guard('api')->user();
+
+      //$user_id = Auth::id();
+      $user_id = $user->id;
 
       $videos = Video::where('user', $user_id)->get();
 //      return view('videos/index', array('videos' => $videos));
