@@ -1,12 +1,20 @@
-<div class="jumbotron">
+<div class="display-3">
   <h1>{{title}}</h1>
 </div>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
-  <a routerLink="/upload">Uploads</a>
-  <a class="float-right" routerLink="/login">Login</a>
-</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+      <nav>
+        <a routerLink="/dashboard">Dashboard</a>
+        <a routerLink="/heroes">Heroes</a>
+        <a routerLink="/upload">Uploads</a>
+      </nav>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+      <app-login-link></app-login-link>
+    </div>
+  </div>
+</div>
 <div class="container">
   <router-outlet></router-outlet>
   <app-messages></app-messages>

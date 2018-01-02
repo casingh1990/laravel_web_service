@@ -1,0 +1,6 @@
+<div *ngIf="userService.getUser()">
+  Welcome {{ userService.getUser().name }} <a class="float-right" routerLink="/login">Logout</a>
+</div>
+<div *ngIf="!userService.getUser()">
+  <a class="float-right" routerLink="/login">Login</a>
+</div>

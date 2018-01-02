@@ -25,7 +25,13 @@ export class UserService {
 
   getUser(){
     let data = JSON.parse(localStorage.getItem('currentUser'));
-    return data.data;
+
+    if (data){
+      return data.data;
+    }
+    else{
+      return false;
+    }
   }
 
   /** Log a UserService message with the MessageService */
@@ -36,7 +42,7 @@ export class UserService {
   private handleLogin(user: User){
     // store user details and jwt token in local storage to keep user logged in between page refreshes
     localStorage.setItem('currentUser', JSON.stringify(user));
-    this.log(`logged in user w/ id=${user.id}`)
+    this.log(`logged in user w/ id=${user.data.id}`)
   }
 
   /** login user to server */
