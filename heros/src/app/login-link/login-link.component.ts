@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class LoginLinkComponent implements OnInit {
   user :User;
 
   constructor(
-    private userService: UserService;
+    private userService: UserService
   ) {  }
 
 

@@ -23,15 +23,9 @@ export class UserService {
         this.usersUrl = this.configService.getAPIUrl() + "users";
     }
 
-  getUser(){
+  getUser(): User{
     let data = JSON.parse(localStorage.getItem('currentUser'));
-
-    if (data){
-      return data.data;
-    }
-    else{
-      return false;
-    }
+    return data;
   }
 
   /** Log a UserService message with the MessageService */
@@ -39,13 +33,19 @@ export class UserService {
     this.messageService.add('UserService: ' + message);
   }
 
+  /**
+   * store user data in localStorage and log to MessageService
+   **/
   private handleLogin(user: User){
-    // store user details and jwt token in local storage to keep user logged in between page refreshes
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    this.log(`logged in user w/ id=${user.data.id}`)
+    if (user){
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.log(`logged in user w/ id=${user.id}`)
+    }
   }
 
-  /** login user to server */
+  /**
+  * login user to server
+  */
   login (user: string, password: string): Observable<User> {
     const url = this.configService.getAPIUrl() + "apilogin";
     let data = {email: user, password: password};
@@ -53,23 +53,32 @@ export class UserService {
       tap(
         (user: User) => this.handleLogin(user)
       ),
-      catchError(this.handleError<User>('addUser'))
+      catchError(this.handleError<User>('Login'))
     );
   }
-  /*login(username: string, password: string) {
-      const url = this.configService.getAPIUrl() + "apilogin";
-      return this.http.post(url, { email: username, password: password })
-          .map((response: Response) => {
-              // login successful if there's a jwt token in the response
-              let user = response.json();
-              if (user && user.api_token) {
-                  // store user details and jwt token in local storage to keep user logged in between page refreshes
-                  localStorage.setItem('currentUser', JSON.stringify(user));
-              }
 
-              return user;
-          });
-  }*/
+  /**
+   * logging and saving new user to localStorage
+   * @param User 
+   **/
+  private handleRegistered(user: User){
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.log(`registered and log in user w/ id=${user.id}`)
+  }
+
+
+  /**
+   * Register a new user
+   **/
+   register (userModel: any): Observable<User> {
+     const url = this.configService.getAPIUrl() + "register";
+     return this.http.post<User>(url, userModel, httpOptions).pipe(
+       tap(
+         (user: User) => this.handleRegistered(user)
+       ),
+       catchError(this.handleError<User>('addUser'))
+     );
+   }
 
   /**
    * Log out user
@@ -79,7 +88,10 @@ export class UserService {
       localStorage.removeItem('currentUser');
   }
 
-  /** PUT: update the user on the server */
+  /**
+   * update user
+   * @notused
+   */
   updateUser (user: User): Observable<any> {
     const url = `${this.usersUrl}/${user.id}`;
     return this.http.put(url, user, httpOptions).pipe(
@@ -88,6 +100,10 @@ export class UserService {
     );
   }
 
+  /**
+   * Get a list of users
+   * @notused
+   **/
   getUsers(): Observable<User[]> {
     this.messageService.add('UserService: fetched users');
     return this.http.get<User[]>(this.usersUrl)

@@ -1,8 +1,24 @@
 /* AppComponent's private CSS styles */
-h1 {
+/*h1 {
   font-size: 1.2em;
   color: #999;
   margin-bottom: 0;
+}*/
+body{
+  background-color: rgb(100,100,100);
+}
+.routerLinkActive {
+  background-color: #CFD8DC;
+}
+.container{
+  background-color: rgb(200,200,200);
+}
+.myheader{
+  color: rgb(35, 35, 168);
+  text-shadow: 0px 0px 4px #AAAAAA;
+  font-weight: bold;
+  border-bottom: 10px rgb(25,25,130);
+  padding-left: 1%;
 }
 h2 {
   font-size: 2em;

@@ -7,6 +7,7 @@ import { Video } from '../models/video';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Location } from '@angular/common';
 import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
@@ -26,6 +27,7 @@ export class FileUploadComponent implements OnInit {
     private heroService: HeroService,
     private userService: UserService,
     private videoService: VideoService,
+    private location: Location,
     private http: HttpClient,private fb: FormBuilder
   ) {
       this.createForm();
@@ -75,8 +77,12 @@ export class FileUploadComponent implements OnInit {
     let ret =  this.http.post(url, formModel).pipe(
       //tap((hero: T) => this.log(`posted {data}`)),
       catchError(this.heroService.handleError('addHero'))
-    ).subscribe();
+    ).subscribe(() => this.goBack());
+  }
+
+  goBack(): void{
     this.loading = false;
+    this.location.back();
   }
 
   clearFile() {

@@ -16,6 +16,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { LoginLinkComponent } from './login-link/login-link.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LoginLinkComponent } from './login-link/login-link.component';
     DashboardComponent,
     FileUploadComponent,
     LoginComponent,
-    LoginLinkComponent
+    LoginLinkComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

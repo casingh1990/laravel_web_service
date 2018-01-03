@@ -8,6 +8,10 @@
         </a>
       </li>
     </ul>
+    <div *ngIf="!videos.length" >
+      You must be logged in to see or upload your videos
+    </div>
+
 </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-group">
