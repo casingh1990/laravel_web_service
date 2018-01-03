@@ -62,6 +62,11 @@ export class FileUploadComponent implements OnInit {
     return input;
   }
 
+  delete(video: Video): void {
+    this.videos = this.videos.filter(h => h !== video);
+    this.videoService.deleteHero(video).subscribe();
+  }
+
   onSubmit() {
     const formModel = this.prepareSave();
     this.loading = true;
@@ -71,11 +76,11 @@ export class FileUploadComponent implements OnInit {
     };
     // In a real-world app you'd have a http request / service call here like
     // this.http.post('apiUrl', formModel)
-    const url = this.configService.getAPIUrl() + 'videos'; //http://192.168.1.106/backend/hero';
+    const url = this.configService.getAPIUrl() + 'videos'; //http://192.168.1.106/backend/video';
     //httpOptions['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
 
     let ret =  this.http.post(url, formModel).pipe(
-      //tap((hero: T) => this.log(`posted {data}`)),
+      //tap((video: T) => this.log(`posted {data}`)),
       catchError(this.heroService.handleError('addHero'))
     ).subscribe(() => this.goBack());
   }

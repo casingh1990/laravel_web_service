@@ -115,6 +115,6 @@ class HeroController extends Controller
     public function destroy(Hero $hero)
     {
         $hero->delete();
-        return response()->json('success',200);
+        return response()->json('delete successful',200);
     }
 }

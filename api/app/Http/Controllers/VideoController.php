@@ -121,6 +121,9 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $video = Video::find($id);
+        Storage::delete($video->file);
+        $video->delete();
+        return response()->json('delete successful',200);
     }
 }

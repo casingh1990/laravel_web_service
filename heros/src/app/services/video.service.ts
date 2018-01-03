@@ -28,7 +28,7 @@ export class VideoService {
   getVideo(id: number): Observable<Video> {
     const url = `${this.videosUrl}/${id}`;
     return this.http.get<Video>(url).pipe(
-      tap(_ => this.log(`fetched hero id=${id}`)),
+      tap(_ => this.log(`fetched video id=${id}`)),
       catchError(this.handleError<Video>(`getVideo id=${id}`))
     );
   }
@@ -38,22 +38,35 @@ export class VideoService {
     this.messageService.add('VideoService: ' + message);
   }
 
-  /** POST: add a new hero to the server */
-  addVideo (hero: Video): Observable<Video> {
-    const url = `${this.videosUrl}`;//http://192.168.1.106/backend/hero';
+  /** POST: add a new video to the server */
+  addVideo (video: Video): Observable<Video> {
+    const url = `${this.videosUrl}`;//http://192.168.1.106/backend/video';
     //httpOptions['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-    return this.http.post<Video>(url, hero, httpOptions).pipe(
-      tap((hero: Video) => this.log(`added hero w/ id=${hero.id}`)),
+    return this.http.post<Video>(url, video, httpOptions).pipe(
+      tap((video: Video) => this.log(`added video w/ id=${video.id}`)),
       catchError(this.handleError<Video>('addVideo'))
     );
   }
 
-  /** PUT: update the hero on the server */
-  updateVideo (hero: Video): Observable<any> {
-    const url = `${this.videosUrl}/${hero.id}`;
-    return this.http.put(url, hero, httpOptions).pipe(
-      tap(_ => this.log(`updated hero id=${hero.id}`)),
+  /** PUT: update the video on the server */
+  updateVideo (video: Video): Observable<any> {
+    const url = `${this.videosUrl}/${video.id}`;
+    return this.http.put(url, video, httpOptions).pipe(
+      tap(_ => this.log(`updated video id=${video.id}`)),
       catchError(this.handleError<any>('updateVideo'))
+    );
+  }
+
+  /**
+   * Call backend to delete video
+   **/
+  deleteHero (video: Hero| number): Observable<Hero> {
+    const id = typeof video === 'number' ? video : video.id;
+    const url = `${this.videosUrl}/${id}`;
+
+    return this.http.delete<Hero>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted video id=${id}`)),
+      catchError(this.handleError<Hero>('deleteHero'))
     );
   }
 

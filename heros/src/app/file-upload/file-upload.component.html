@@ -4,9 +4,18 @@
     <div class="panel-heading">My Videos</div>
     <ul class="videos" *ngIf="videos?.length">
       <li *ngFor="let video of videos">
-        <a routerLink="/video-detail/{{video.id}}">
-          <span class="badge">{{video.id}}</span> {{video.name}}
-        </a>
+        <div class="card">
+          <div class="card-body">
+            <video controls>
+              <source src="/backend/{{video.file}}">
+            </video>
+
+              <h6 class="card-title">{{video.name}}</h6>
+
+            <button class="delete" title="delete hero"
+          (click)="delete(video)">x</button>
+          </div>
+        </div>
       </li>
     </ul>
     <div *ngIf="!videos.length" >
