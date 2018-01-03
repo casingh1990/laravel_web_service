@@ -1,7 +1,8 @@
+<script type="text/javascript" src="/assets/js/upload.js"></script>
 <br />
 <div class="panel panel-default">
     <div class="panel-heading">My Videos</div>
-    <ul class="videos">
+    <ul class="videos" *ngIf="videos?.length">
       <li *ngFor="let video of videos">
         <a routerLink="/video-detail/{{video.id}}">
           <span class="badge">{{video.id}}</span> {{video.name}}
@@ -9,7 +10,7 @@
       </li>
     </ul>
     <div *ngIf="!videos.length" >
-      You must be logged in to see or upload your videos
+      You have not uploaded any videos
     </div>
 
 </div>

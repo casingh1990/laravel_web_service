@@ -18,6 +18,10 @@ class VideoController extends Controller
     {
       $user = Auth::guard('api')->user();
 
+      if (!$user){
+        return response()->json(['status'=>'Must be logged in to view videos'], 401);
+      }
+
       //$user_id = Auth::id();
       $user_id = $user->id;
 

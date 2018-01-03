@@ -60,14 +60,19 @@ export class VideoService {
   getVideos(): Observable<Video[]> {
     let user = this.userService.getUser();
 
+    let api_token = '';
+    if (user){
+      api_token = user.api_token;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json',
-    'Authorization' : 'Bearer ' + user.api_token })
+    'Authorization' : 'Bearer ' + api_token })
     };
 
     this.messageService.add('VideoService: fetched videos');
 
-    let url = this.videosUrl + "?api_token=" + user.api_token;
+    let url = this.videosUrl;// + "?api_token=" + user.api_token;
 
     return this.http.get<Video[]>(url, httpOptions)
       .pipe(
