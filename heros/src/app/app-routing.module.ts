@@ -10,7 +10,7 @@ import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'videos', component: FileUploadComponent },
+  { path: 'videos', component: FileUploadComponent, canActivate: [AuthGuard] },
   { path: 'detail/:id', component: HeroDetailComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

@@ -7,6 +7,7 @@ import { MessageService } from '../services/message.service';
 import { UserService } from '../services/user.service';
 import { ConfigService } from '../services/config.service';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,6 +22,7 @@ export class VideoService {
     private http: HttpClient,
     private messageService: MessageService,
     private userService: UserService,
+    private location: Location,
     private configService: ConfigService) {
         this.videosUrl = this.configService.getAPIUrl() + "videos";
     }
@@ -51,6 +53,7 @@ export class VideoService {
   /** PUT: update the video on the server */
   updateVideo (video: Video): Observable<any> {
     const url = `${this.videosUrl}/${video.id}`;
+    const httpOptions = this.getHeaders();
     return this.http.put(url, video, httpOptions).pipe(
       tap(_ => this.log(`updated video id=${video.id}`)),
       catchError(this.handleError<any>('updateVideo'))
@@ -60,17 +63,33 @@ export class VideoService {
   /**
    * Call backend to delete video
    **/
-  deleteHero (video: Hero| number): Observable<Hero> {
+  deleteVideo (video: Video| number): Observable<Video> {
     const id = typeof video === 'number' ? video : video.id;
     const url = `${this.videosUrl}/${id}`;
 
-    return this.http.delete<Hero>(url, httpOptions).pipe(
+    return this.http.delete<Video>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted video id=${id}`)),
-      catchError(this.handleError<Hero>('deleteHero'))
+      catchError(this.handleError<Video>('deleteVideo'))
     );
   }
 
+
+
   getVideos(): Observable<Video[]> {
+    const httpOptions = this.getHeaders();
+
+    this.messageService.add('VideoService: fetched videos');
+
+    let url = this.videosUrl;// + "?api_token=" + user.api_token;
+
+    return this.http.get<Video[]>(url, httpOptions)
+      .pipe(
+         tap(videos => this.log(`fetched videos`)),
+         catchError(this.handleError('getVideoes', []))
+       );
+  }
+
+  public getHeaders(){
     let user = this.userService.getUser();
 
     let api_token = '';
@@ -82,16 +101,7 @@ export class VideoService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json',
     'Authorization' : 'Bearer ' + api_token })
     };
-
-    this.messageService.add('VideoService: fetched videos');
-
-    let url = this.videosUrl;// + "?api_token=" + user.api_token;
-
-    return this.http.get<Video[]>(url, httpOptions)
-      .pipe(
-         tap(videos => this.log(`fetched videos`)),
-         catchError(this.handleError('getVideoes', []))
-       );
+    return httpOptions;
   }
 
 
@@ -109,6 +119,12 @@ export class VideoService {
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
+
+      if (error.status === 401) {
+          // 401 unauthorized response so log user out of client
+          //this.location.path('/login');
+          window.location.href = '/login';
+      }
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

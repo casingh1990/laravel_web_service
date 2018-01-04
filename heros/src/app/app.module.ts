@@ -17,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { LoginLinkComponent } from './login-link/login-link.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { RegisterComponent } from './register/register.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ HeroService, MessageService, VideoService, ConfigService, UserService, HttpClientModule ],
+  providers: [ HeroService, MessageService, VideoService, ConfigService, UserService, HttpClientModule, AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

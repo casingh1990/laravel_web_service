@@ -51,6 +51,10 @@ class VideoController extends Controller
         return view('videos/create', $tpl_vars);
     }
 
+    private function handleError($message, $code){
+      return response()->json(['status'=>$message], $code);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -59,7 +63,17 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
+
+      $user = Auth::guard('api')->user();
+
       $user_id = $request->get('user');
+      if (!$user){
+        return $this->handleError('Must be logged in to view videos', 401);
+      }
+      if ($user.id != $user_id){
+        return $this->handleError('Must be logged in to view videos', 401);
+      }
+
 
       $user_file = $request->file('video');
 

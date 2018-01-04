@@ -2,23 +2,23 @@
 <br />
 <div class="panel panel-default">
     <div class="panel-heading">My Videos</div>
-    <ul class="videos" *ngIf="videos?.length">
-      <li *ngFor="let video of videos">
-        <div class="card">
-          <div class="card-body">
-            <video controls>
-              <source src="/backend/{{video.file}}">
-            </video>
+      <div class="flex-container">
+        <div *ngFor="let video of videos" class="flex-item">
+          <div class="card">
+            <div class="card-body">
+              <video class="video" width="320" height="240"  controls>
+                <source src="/backend/{{video.file}}">
+              </video>
+              <div>
+                    <span class="card-title">{{video.name}}</span>
 
-              <h6 class="card-title">{{video.name}}</h6>
-
-            <button class="delete" title="delete hero"
-          (click)="delete(video)">x</button>
+                  <button class="delete" title="delete hero" (click)="delete(video)">x</button>
+              </div>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
-    <div *ngIf="!videos.length" >
+        </div><!-- end ngfor -->
+      </div>
+    <div *ngIf="!videos" >
       You have not uploaded any videos
     </div>
 
