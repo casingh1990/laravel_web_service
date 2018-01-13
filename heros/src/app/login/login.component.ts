@@ -11,6 +11,7 @@ import { MessageService } from '../services/message.service';
 export class LoginComponent implements OnInit {
   model: any = {};
     loading = false;
+    error_message: string;
     returnUrl: string;
 
     constructor(
@@ -29,14 +30,17 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.loading = true;
-        this.userService.login(this.model.username, this.model.password)
+        this.error_message = "";
+        let data = this.userService.login(this.model.username, this.model.password)
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.messageService.add(error);
                     this.loading = false;
+                    this.messageService.add(error);
                 });
+       this.loading = false;
+       this.error_message = "Login Failed: Please check username and password";
     }
 }

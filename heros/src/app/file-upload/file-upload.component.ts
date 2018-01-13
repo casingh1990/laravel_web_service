@@ -58,6 +58,7 @@ export class FileUploadComponent implements OnInit {
   private prepareSave(): any {
     let input = new FormData();
     input.append('user', this.userService.getUser().id.toString());
+    input.append('api_token', this.userService.getUser().api_token);
     input.append('video', this.form.get('video').value);
     return input;
   }
@@ -88,6 +89,7 @@ export class FileUploadComponent implements OnInit {
   goBack(): void{
     this.loading = false;
     this.getVideos();
+    this.clearFile();
   }
 
   clearFile() {

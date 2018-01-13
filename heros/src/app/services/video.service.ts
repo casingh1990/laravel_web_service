@@ -44,7 +44,8 @@ export class VideoService {
   addVideo (video: Video): Observable<Video> {
     const url = `${this.videosUrl}`;//http://192.168.1.106/backend/video';
     //httpOptions['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-    return this.http.post<Video>(url, video, httpOptions).pipe(
+    //const httpOptions = this.getHeaders();
+    return this.http.post<Video>(url, video).pipe(
       tap((video: Video) => this.log(`added video w/ id=${video.id}`)),
       catchError(this.handleError<Video>('addVideo'))
     );

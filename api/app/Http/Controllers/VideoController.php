@@ -70,8 +70,8 @@ class VideoController extends Controller
       if (!$user){
         return $this->handleError('Must be logged in to view videos', 401);
       }
-      if ($user.id != $user_id){
-        return $this->handleError('Must be logged in to view videos', 401);
+      if ($user->id != $user_id){
+        return $this->handleError('Must be logged in to view videos not matched', 401);
       }
 
 

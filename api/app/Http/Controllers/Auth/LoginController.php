@@ -52,9 +52,9 @@ class LoginController extends Controller
 
             return response()->json($user);
         }else{
-          echo "login Failed<br />";
+          return response()->json(['status'=>'Login Failed'], 401);
         }
 
-        return $this->sendFailedLoginResponse($request);
+        //return $this->sendFailedLoginResponse($request);
     }
 }
