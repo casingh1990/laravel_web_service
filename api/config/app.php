@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-         Barryvdh\Cors\ServiceProvider::class,
+        Fruitcake\Cors\CorsServiceProvider::class,
         /*
          * Application Service Providers...
          */
