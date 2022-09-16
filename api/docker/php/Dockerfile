@@ -6,3 +6,5 @@ RUN apt-get install -y \
         libzip-dev \
         zip \
   && docker-php-ext-install zip
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
